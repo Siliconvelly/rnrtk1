@@ -1,18 +1,16 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import store from '../redux/store';
-import { decrement, increment } from '../redux/action';
+import { decrement, increment } from '../../redux/action';
 
-const Home = () => {
-    console.log("store value ==> ", store);
-    console.log("store.getState() ==> ", store.getState());
+const Home = ({ dispatch, getState, subscribe }) => {
+    // console.log("props ", props);
 
     const [number, setNumber] = useState(0);
-
     useEffect(() => {
-        const unsubscribe = store.subscribe(() => {
-            let value = store.getState().num;
+        const unsubscribe = subscribe(() => {
+            let value = getState().num;
             setNumber(value);
+            console.log("value ==> ", value);
         })
         return () => {
             unsubscribe();
@@ -21,24 +19,25 @@ const Home = () => {
 
 
     const onAdd = () => {
-        store.dispatch(increment(number))
+        dispatch(increment(number));
     }
 
     const onDec = () => {
-        store.dispatch(decrement(number))
+        dispatch(decrement(number));
     }
+
     return (
         <View style={styles.container}>
             <Text>{number}</Text>
             <Text>Home</Text>
 
             <Button
-                title='ADD'
+                title='Add'
                 onPress={onAdd}
             />
 
             <Button
-                title='DEC'
+                title='Dec'
                 onPress={onDec}
             />
         </View>
@@ -51,6 +50,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     }
 })

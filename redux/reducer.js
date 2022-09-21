@@ -3,7 +3,6 @@ import types from "./types";
 let initial_state = {
     num: 0
 }
-
 export function counterReducer(state = initial_state, action) {
     switch (action.type) {
         case types.INCREMENT:
@@ -15,6 +14,7 @@ export function counterReducer(state = initial_state, action) {
         case types.DECREMENT:
             {
                 let data = action.payload
+                console.log("decrement reducer call", data);
                 return { ...state, num: data - 1 }
             }
         default:
